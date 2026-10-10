@@ -4,18 +4,8 @@ import numpy as np
 import os
 import time
 import math
+import winsound
 from collections import defaultdict
-
-import sys
-import time
-
-def play_alert():
-    """Play an alert on Windows; use a terminal bell elsewhere."""
-    if sys.platform == "win32":
-        import winsound
-        winsound.MessageBeep()
-    else:
-        print("\a", end="", flush=True)
 
 # Sound configuration
 ALERT_FREQ = 2000  # Hz
@@ -150,7 +140,7 @@ class AlertSystem:
     def trigger(self):
         if time.time() - self.last_alert > ALERT_COOLDOWN:
             try:
-                play_alert()
+                winsound.Beep(ALERT_FREQ, ALERT_DUR)
             except:
                 os.system('afplay /System/Library/Sounds/Ping.aiff')  # macOS fallback
             self.last_alert = time.time()
@@ -320,5 +310,4 @@ if selected_section == "Fire & Smoke Detection":
 elif selected_section == "Loitering Detection":
     detect_loitering()
 elif selected_section:
-    start_video_detection(selected_section) 
-
+    start_video_detection(selected_section)
